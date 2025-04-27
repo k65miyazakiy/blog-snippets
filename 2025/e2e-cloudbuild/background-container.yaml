@@ -15,3 +15,6 @@ steps:
   # 4. nginxへのcurlで疎通確認を行う
   - name: 'gcr.io/cloud-builders/curl'
     args: ['-s', '-v', 'http://nginx-server']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
