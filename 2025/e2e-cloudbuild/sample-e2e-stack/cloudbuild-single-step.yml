@@ -1,0 +1,48 @@
+steps:
+  # 単一ステップで全てのサービスを立ち上げてテストを実行
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # データベースコンテナをビルドして起動
+        echo "データベースコンテナをビルドしています..."
+        docker build -t postgres-db ./db
+        echo "データベースコンテナを起動しています..."
+        docker run -d --name=db --network=cloudbuild \
+          -e POSTGRES_USER=postgres \
+          -e POSTGRES_PASSWORD=postgres \
+          -e POSTGRES_DB=testdb \
+          postgres-db
+        
+        # アプリケーションコンテナをビルドして起動
+        echo "アプリケーションコンテナをビルドしています..."
+        docker build -t message-app ./app
+        echo "アプリケーションコンテナを起動しています..."
+        docker run -d --name=app --network=cloudbuild \
+          -e DB_HOST=db \
+          -e DB_PORT=5432 \
+          -e DB_USER=postgres \
+          -e DB_PASSWORD=postgres \
+          -e DB_NAME=testdb \
+          message-app
+        
+        # サービスの起動を待機
+        echo "サービスの起動を待機しています..."
+        sleep 10
+        
+        # 起動中のコンテナ確認
+        echo "起動中のコンテナ一覧:"
+        docker ps
+        
+        # E2Eテストをビルドして実行
+        echo "E2Eテストをビルドしています..."
+        docker build -t e2e-tests ./e2e
+        echo "E2Eテストを実行しています..."
+        docker run --network=cloudbuild e2e-tests
+        
+        # テスト結果を出力
+        echo "テストが完了しました"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
