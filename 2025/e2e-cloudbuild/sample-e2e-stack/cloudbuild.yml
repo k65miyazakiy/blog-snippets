@@ -1,6 +1,7 @@
 steps:
   # データベースコンテナをバックグラウンドで起動
   - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
     args: ['build', '-t', 'postgres-db', './db']
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -37,3 +38,4 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY
+  dir: "/workspace/2025/e2e-cloudbuild/sample-e2e-stack"
