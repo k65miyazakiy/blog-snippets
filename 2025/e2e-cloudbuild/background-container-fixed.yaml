@@ -1,0 +1,11 @@
+steps:
+  # 0. nginxコンテナをバックグラウンドで起動（ネットワーク指定あり）
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['run', '-d', '--name=nginx-server', '--network=cloudbuild', 'nginx:latest']
+
+  # 1. nginxへのcurlで疎通確認を行う
+  - name: 'gcr.io/cloud-builders/curl'
+    args: ['-s', '-v', 'http://nginx-server']
+
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,47 @@
+steps:
+  # データベースコンテナをバックグラウンドで起動
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    args: ['build', '-t', 'postgres-db', './db']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    args: ['run', '-d', '--name=db', '--network=cloudbuild', 
+           '-e', 'POSTGRES_USER=postgres', 
+           '-e', 'POSTGRES_PASSWORD=postgres', 
+           '-e', 'POSTGRES_DB=testdb', 
+           'postgres-db']
+
+  # アプリケーションコンテナをビルドして起動
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    args: ['build', '-t', 'message-app', './app']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    args: ['run', '-d', '--name=myapp', '--network=cloudbuild', 
+           '-e', 'DB_HOST=db', 
+           '-e', 'DB_PORT=5432', 
+           '-e', 'DB_USER=postgres', 
+           '-e', 'DB_PASSWORD=postgres', 
+           '-e', 'DB_NAME=testdb', 
+           'message-app']
+
+  # アプリの起動を待機
+  - name: 'alpine'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    entrypoint: 'sh'
+    args: ['-c', 'sleep 10']
+
+  # E2Eテストを実行
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    args: ['build', '-t', 'e2e-tests', './e2e']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: "2025/e2e-cloudbuild/sample-e2e-stack"
+    args: ['run', '--network=cloudbuild', 'e2e-tests']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
