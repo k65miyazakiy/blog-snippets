@@ -2,18 +2,18 @@ steps:
   # データベースコンテナをバックグラウンドで起動
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'postgres-db', './db']
-  
+
   - name: 'gcr.io/cloud-builders/docker'
     args: ['run', '-d', '--name=db', '--network=cloudbuild', 
            '-e', 'POSTGRES_USER=postgres', 
            '-e', 'POSTGRES_PASSWORD=postgres', 
            '-e', 'POSTGRES_DB=testdb', 
            'postgres-db']
-  
+
   # アプリケーションコンテナをビルドして起動
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'message-app', './app']
-  
+
   - name: 'gcr.io/cloud-builders/docker'
     args: ['run', '-d', '--name=app', '--network=cloudbuild', 
            '-e', 'DB_HOST=db', 
@@ -22,7 +22,7 @@ steps:
            '-e', 'DB_PASSWORD=postgres', 
            '-e', 'DB_NAME=testdb', 
            'message-app']
-  
+
   # アプリの起動を待機
   - name: 'alpine'
     entrypoint: 'sh'
@@ -31,7 +31,7 @@ steps:
   # E2Eテストを実行
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'e2e-tests', './e2e']
-  
+
   - name: 'gcr.io/cloud-builders/docker'
     args: ['run', '--network=cloudbuild', 'e2e-tests']
 

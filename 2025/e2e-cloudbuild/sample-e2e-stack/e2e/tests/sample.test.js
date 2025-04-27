@@ -1,10 +1,9 @@
+// @ts-check
 const { test, expect } = require('@playwright/test');
 
 test('メッセージボードの基本機能テスト', async ({ page }) => {
-  // アプリにアクセス
-  await page.goto('http://app:8080', {
-    ignoreHTTPSErrors: true,
-  });
+  // アプリにアクセス（コンテナ名で実接続先の解決が可能）
+  await page.goto('http://myapp:8080');
 
   // タイトルの確認
   await expect(page).toHaveTitle('シンプルメッセージボード');
