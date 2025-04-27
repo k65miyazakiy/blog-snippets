@@ -19,7 +19,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     dir: "2025/e2e-cloudbuild/sample-e2e-stack"
-    args: ['run', '-d', '--name=app', '--network=cloudbuild', 
+    args: ['run', '-d', '--name=myapp', '--network=cloudbuild', 
            '-e', 'DB_HOST=db', 
            '-e', 'DB_PORT=5432', 
            '-e', 'DB_USER=postgres', 
