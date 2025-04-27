@@ -7,13 +7,10 @@ steps:
       - |
         nginx
         
-        # プロセス確認
-        ps aux | grep nginx
-        
         # 少し待機
         sleep 3
         
-        # 疎通確認（すでにnginxイメージにはcurlがインストールされていないので必要に応じてインストール）
+        # 疎通確認
         apk add --no-cache curl
         curl -s -v http://localhost
         
