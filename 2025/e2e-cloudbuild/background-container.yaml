@@ -1,18 +1,18 @@
 steps:
-  # 1. nginxコンテナをバックグラウンドで起動（ネットワーク指定あり）
+  # 0. nginxコンテナをバックグラウンドで起動（ネットワーク指定あり）
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['run', '-d', '--name=nginx-server', '-p', '8080:80', 'nginx:latest']
+    args: ['run', '-d', '--name=nginx-server', 'nginx:latest']
 
-  # 2. 念のため5秒のsleepを挟む
+  # 1. 念のため5秒のsleepを挟む
   - name: 'alpine'
     entrypoint: 'sh'
     args: ['-c', 'sleep 5']
 
-  # 3. 全ネットワークにまたがり、現在起動中および停止中のコンテナ一覧を取得
+  # 2. 全ネットワークにまたがり、現在起動中および停止中のコンテナ一覧を取得
   - name: 'gcr.io/cloud-builders/docker'
     args: ['ps', '-a', '--format', 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Networks}}']
 
-  # 4. nginxへのcurlで疎通確認を行う
+  # 3. nginxへのcurlで疎通確認を行う
   - name: 'gcr.io/cloud-builders/curl'
     args: ['-s', '-v', 'http://nginx-server']
 
