@@ -19,7 +19,7 @@ steps:
         echo "アプリケーションコンテナをビルドしています..."
         docker build -t message-app ./app
         echo "アプリケーションコンテナを起動しています..."
-        docker run -d --name=app --network=cloudbuild \
+        docker run -d --name=myapp --network=cloudbuild \
           -e DB_HOST=db \
           -e DB_PORT=5432 \
           -e DB_USER=postgres \
