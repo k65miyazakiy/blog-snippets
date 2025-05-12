@@ -37,7 +37,8 @@ else
   PREVIOUS_REVISION=$(echo "$REVISIONS" | tail -1)
   
   if [ "$LATEST_REVISION" = "$PREVIOUS_REVISION" ]; then
-    # Only one revision exists; route all traffic to the latest revision
+    # リビジョンが一つしかない場合はそのリビジョンにトラフィックを全て割り当てる。
+    # initial_deployを行う限りはこのパスに入ることはない
     gcloud run services update-traffic ${SERVICE_NAME} \
       --region ${REGION} \
       --to-revisions=${LATEST_REVISION}=100

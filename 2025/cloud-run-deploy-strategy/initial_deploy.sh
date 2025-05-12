@@ -22,6 +22,6 @@ gcloud run deploy ${SERVICE_NAME} \
   --platform managed \
   --region ${REGION} \
   --allow-unauthenticated \
-  --set-env-vars TARGET="World!" \
+  --set-env-vars TARGET="World!"
 
 echo "=== Hello Worldアプリがデプロイされました ==="
