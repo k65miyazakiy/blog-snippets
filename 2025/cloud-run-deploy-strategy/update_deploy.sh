@@ -33,12 +33,22 @@ if [ "$TRAFFIC_PERCENT" -eq "0" ]; then
 else
   # トラフィック割合の指定がある場合、既存のリビジョンと新規リビジョンでトラフィックを分割
   LATEST_REVISION=$(gcloud run revisions list --platform managed --region ${REGION} --service ${SERVICE_NAME} --format="value(name)" --sort-by=~createTime --limit=1)
-  PREVIOUS_REVISION=$(gcloud run revisions list --platform managed --region ${REGION} --service ${SERVICE_NAME} --format="value(name)" --sort-by=~createTime --limit=2 | tail -1)
+  REVISIONS=$(gcloud run revisions list --platform managed --region ${REGION} --service ${SERVICE_NAME} --format="value(name)" --sort-by=~createTime --limit=2)
+  PREVIOUS_REVISION=$(echo "$REVISIONS" | tail -1)
   
-  # 新リビジョンと旧リビジョン間でトラフィックを分割
-  gcloud run services update-traffic ${SERVICE_NAME} \
-    --region ${REGION} \
-    --to-revisions=${LATEST_REVISION}=${TRAFFIC_PERCENT},${PREVIOUS_REVISION}=$((100-TRAFFIC_PERCENT))
-  
-  echo "=== トラフィックを更新しました: ${LATEST_REVISION}=${TRAFFIC_PERCENT}%, ${PREVIOUS_REVISION}=$((100-TRAFFIC_PERCENT))% ==="
+  if [ "$LATEST_REVISION" = "$PREVIOUS_REVISION" ]; then
+    # Only one revision exists; route all traffic to the latest revision
+    gcloud run services update-traffic ${SERVICE_NAME} \
+      --region ${REGION} \
+      --to-revisions=${LATEST_REVISION}=100
+    
+    echo "=== トラフィックを更新しました: ${LATEST_REVISION}=100% ==="
+  else
+    # 新リビジョンと旧リビジョン間でトラフィックを分割
+    gcloud run services update-traffic ${SERVICE_NAME} \
+      --region ${REGION} \
+      --to-revisions=${LATEST_REVISION}=${TRAFFIC_PERCENT},${PREVIOUS_REVISION}=$((100-TRAFFIC_PERCENT))
+    
+    echo "=== トラフィックを更新しました: ${LATEST_REVISION}=${TRAFFIC_PERCENT}%, ${PREVIOUS_REVISION}=$((100-TRAFFIC_PERCENT))% ==="
+  fi
 fi
