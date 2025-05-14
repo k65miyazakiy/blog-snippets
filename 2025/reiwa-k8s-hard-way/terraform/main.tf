@@ -13,6 +13,10 @@ provider "google" {
   zone    = var.zone
 }
 
+resource "google_compute_network" "vpc_network" {
+  name = "reiwa-k8s-network"
+}
+
 resource "google_compute_instance" "vm_instance" {
   name         = "reiwa-k8s-hw"
   machine_type = "f1-micro"
@@ -24,6 +28,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
+    network = google_compute_network.vpc_network.name
     access_config {
     }
   }
