@@ -7,12 +7,12 @@ cd
 
 ETCD_VER=v3.5.6
 
-sudo wget https://github.com/etcd-io/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz
-sudo tar xvf etcd-${ETCD_VER}-linux-amd64.tar.gz
-sudo mv etcd-${ETCD_VER}-linux-amd64/etcd* /usr/local/bin/
+wget https://github.com/etcd-io/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz
+tar xvf etcd-${ETCD_VER}-linux-amd64.tar.gz
+mv etcd-${ETCD_VER}-linux-amd64/etcd* /usr/local/bin/
 
 # etcd サービスファイルの作成
-cat <<EOF | sudo tee /etc/systemd/system/etcd.service
+cat <<EOF > /etc/systemd/system/etcd.service
 [Unit]
 Description=etcd
 Documentation=https://github.com/coreos
@@ -44,7 +44,7 @@ WantedBy=multi-user.target
 EOF
 
 # etcd の起動
-sudo systemctl daemon-reload
-sudo systemctl enable etcd
-sudo systemctl start etcd
-sudo systemctl status etcd
+systemctl daemon-reload
+systemctl enable etcd
+systemctl start etcd
+systemctl status etcd

@@ -4,14 +4,14 @@ set -e
 
 ## kubeletのサーバー証明書（マニュアル）の作成
 
-sudo mkdir -p  /var/lib/kubelet/pki
-sudo cd /var/lib/kubelet/pki
+mkdir -p  /var/lib/kubelet/pki
+cd /var/lib/kubelet/pki
 
 NODE_NAME=$(hostname)
 NODE_IP=$(hostname -I | awk '{print $1}')
 
 # 鍵の生成
-sudo openssl genrsa -out kubelet-server.key 2048
+openssl genrsa -out kubelet-server.key 2048
 
 # OpenSSL設定ファイルの作成
 cat > kubelet.cnf <<EOF
@@ -30,13 +30,13 @@ IP.1 = ${NODE_IP}
 EOF
 
 # CSRの生成
-sudo openssl req -new -key kubelet-server.key \
+openssl req -new -key kubelet-server.key \
     -subj "/CN=system:node:${NODE_NAME}/O=system:nodes" \
     -config kubelet-openssl.cnf \
     -out kubelet.csr
 
 # 証明書の署名
-sudo openssl x509 -req -in kubelet-server.csr \
+openssl x509 -req -in kubelet-server.csr \
     -CA /etc/kubernetes/pki/ca.crt \
     -CAkey /etc/kubernetes/pki/ca.key \
     -CAcreateserial \

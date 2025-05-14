@@ -6,12 +6,12 @@ cd
 ## kube-apiserverのインストールと実行
 
 K8S_VER=v1.33.0
-sudo wget https://dl.k8s.io/${K8S_VER}/bin/linux/amd64/kube-apiserver
-sudo chmod +x kube-apiserver
-sudo mv kube-apiserver /usr/local/bin/
+wget https://dl.k8s.io/${K8S_VER}/bin/linux/amd64/kube-apiserver
+chmod +x kube-apiserver
+mv kube-apiserver /usr/local/bin/
 
 # kube-apiserver サービスファイルの作成
-cat <<EOF | sudo tee /etc/systemd/system/kube-apiserver.service
+cat <<EOF > /etc/systemd/system/kube-apiserver.service
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes
@@ -54,7 +54,7 @@ WantedBy=multi-user.target
 EOF
 
 # kube-apiserver の起動
-sudo systemctl daemon-reload
-sudo systemctl enable kube-apiserver
-sudo systemctl start kube-apiserver
-sudo systemctl status kube-apiserver
+systemctl daemon-reload
+systemctl enable kube-apiserver
+systemctl start kube-apiserver
+systemctl status kube-apiserver
