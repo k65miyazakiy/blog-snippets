@@ -3,7 +3,7 @@
 set -e
 cd /etc/kubernetes
 
-## shceduler用のkubeconfigの作成
+## scheduler用のkubeconfigの作成
 
 # kubeconfig の作成
 CLUSTER_NAME="kubernetes"
