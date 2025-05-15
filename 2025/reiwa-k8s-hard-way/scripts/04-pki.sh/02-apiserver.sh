@@ -59,7 +59,41 @@ openssl req -new -key scheduler.key -subj "/CN=system:kube-scheduler" -out sched
 openssl x509 -req -in scheduler.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out scheduler.crt -days 10000
 
 # kubelet 用クライアント証明書
-NODE_NAME=$(hostname -s)  # ノード名を取得
+cat > /tmp/kubelet-openssl.cnf << EOF
+[ req ]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+
+[ dn ]
+CN = system:node:$(hostname -s)
+O = system:nodes
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = $(hostname -s)
+DNS.2 = $(hostname -f)
+IP.1 = $(hostname -i)
+
+[ v3_ext ]
+authorityKeyIdentifier=keyid,issuer:always
+basicConstraints=CA:FALSE
+keyUsage=keyEncipherment,dataEncipherment,digitalSignature
+extendedKeyUsage=serverAuth,clientAuth
+EOF
+
 openssl genrsa -out apiserver-kubelet-client.key 2048
-openssl req -new -key apiserver-kubelet-client.key -subj "/CN=system:node:${NODE_NAME}/O=system:nodes" -out apiserver-kubelet-client.csr
-openssl x509 -req -in apiserver-kubelet-client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out apiserver-kubelet-client.crt -days 10000
+openssl req -new -key apiserver-kubelet-client.key -out apiserver-kubelet-client.csr -config /tmp/kubelet-openssl.cnf
+openssl x509 -req \
+  -in apiserver-kubelet-client.csr \
+  -CA /etc/kubernetes/pki/ca.crt \
+  -CAkey /etc/kubernetes/pki/ca.key \
+  -CAcreateserial \
+  -out apiserver-kubelet-client.crt \
+  -days 365 \
+  -extensions v3_ext \
+  -extfile /tmp/kubelet-openssl.cnf
