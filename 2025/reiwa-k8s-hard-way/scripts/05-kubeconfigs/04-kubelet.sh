@@ -18,8 +18,8 @@ kubectl config set-cluster ${CLUSTER_NAME} \
   --kubeconfig=${KUBE_CONFIG}
 
 kubectl config set-credentials ${KUBE_USER} \
-  --client-certificate=/var/lib/kubelet/pki/kubelet.crt \
-  --client-key=/var/lib/kubelet/pki/kubelet.key \
+  --client-certificate=/var/lib/kubelet/pki/kubelet-server.crt \
+  --client-key=/var/lib/kubelet/pki/kubelet-server.key \
   --embed-certs=true \
   --kubeconfig=${KUBE_CONFIG}
 
