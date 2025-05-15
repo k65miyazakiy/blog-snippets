@@ -32,11 +32,12 @@ resource "google_compute_firewall" "iap_ssh" {
 
 resource "google_compute_instance" "vm_instance" {
   name         = "reiwa-k8s-hw"
-  machine_type = "f1-micro"
+  machine_type = "e2-midium"
  
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
+      size = 20
     }
   }
 
