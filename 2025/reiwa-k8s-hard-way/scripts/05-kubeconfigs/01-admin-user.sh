@@ -18,8 +18,8 @@ kubectl config set-cluster ${CLUSTER_NAME} \
   --kubeconfig=${KUBE_CONFIG}
 
 kubectl config set-credentials ${KUBE_USER} \
-  --client-certificate=/etc/kubernetes/admin.crt \
-  --client-key=/etc/kubernetes/admin.key \
+  --client-certificate=/etc/kubernetes/pki/admin.crt \
+  --client-key=/etc/kubernetes/pki/admin.key \
   --embed-certs=true \
   --kubeconfig=${KUBE_CONFIG}
 
