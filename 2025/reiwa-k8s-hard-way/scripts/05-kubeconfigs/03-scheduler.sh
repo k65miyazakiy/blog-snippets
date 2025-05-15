@@ -6,6 +6,7 @@ cd /etc/kubernetes
 ## shceduler用のkubeconfigの作成
 
 # kubeconfig の作成
+CLUSTER_NAME="kubernetes"
 KUBE_USER="system:kube-scheduler"
 KUBE_CONFIG="scheduler.kubeconfig"
 

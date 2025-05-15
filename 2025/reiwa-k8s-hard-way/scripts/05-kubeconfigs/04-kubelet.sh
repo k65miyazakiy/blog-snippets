@@ -6,6 +6,8 @@ cd /etc/kubernetes
 ## kubelet用のkubeconfigの作成
 
 # kubelet.kubeconfig の作成
+NODE_NAME=$(hostname -s)
+CLUSTER_NAME="kubernetes"
 KUBE_USER="system:node:${NODE_NAME}"
 KUBE_CONFIG="kubelet.kubeconfig"
 

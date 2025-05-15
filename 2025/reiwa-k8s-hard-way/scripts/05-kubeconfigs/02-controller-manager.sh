@@ -6,6 +6,7 @@ cd /etc/kubernetes
 ## Controller Mnager用のkubeconfigの作成
 
 # kubeconfig の作成
+CLUSTER_NAME="kubernetes"
 KUBE_USER="system:kube-controller-manager"
 KUBE_CONFIG="controller-manager.kubeconfig"
 
