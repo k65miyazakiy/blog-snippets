@@ -17,8 +17,8 @@ kubectl config set-cluster ${CLUSTER_NAME} \
   --kubeconfig=${KUBE_CONFIG}
 
 kubectl config set-credentials ${KUBE_USER} \
-  --client-certificate=/etc/kubernetes/controller-manager.crt \
-  --client-key=/etc/kubernetes/controller-manager.key \
+  --client-certificate=/etc/kubernetes/pki/controller-manager.crt \
+  --client-key=/etc/kubernetes/pki/controller-manager.key \
   --embed-certs=true \
   --kubeconfig=${KUBE_CONFIG}
 
