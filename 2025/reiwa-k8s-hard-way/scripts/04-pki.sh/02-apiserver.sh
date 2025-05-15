@@ -38,7 +38,7 @@ openssl x509 -req -in apiserver.csr -CA ca.crt -CAkey ca.key -CAcreateserial -ou
 ## etcdへのクライアント証明書
 openssl genrsa -out apiserver-etcd-client.key 2048
 openssl req -new -key apiserver-etcd-client.key -subj "/CN=kube-apiserver-etcd-client/O=system:masters" -out apiserver-etcd-client.csr
-openssl x509 -req -in apiserver-etcd-client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out apiserver-etcd-client.crt -days 10000
+openssl x509 -req -in apiserver-etcd-client.csr -CA etcd/ca.crt -CAkey etcd/ca.key -CAcreateserial -out apiserver-etcd-client.crt -days 10000
 
 ## 各コンポーネントからapiserverへ接続する際のクライアント証明書
 

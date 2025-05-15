@@ -17,8 +17,8 @@ echo "alias scscm='sudo systemctl status kube-controller-manager'" >> ~/.bashrc
 echo "alias scssch='sudo systemctl status kube-scheduler'" >> ~/.bashrc
 
 # journalctl
-echo "alias tailapi='sudo journalctl -u kube-apiserver -n 10'" >> ~/.bashrc
-echo "alias tailetc='sudo journalctl -u etcd -n 10'" >> ~/.bashrc
-echo "alias tailklet='sudo journalctl -u kubelet -n 10'" >> ~/.bashrc
-echo "alias tailcm='sudo journalctl -u kube-controller-manager -n 10'" >> ~/.bashrc
-echo "alias tailsch='sudo journalctl -u kube-scheduler -n 10'" >> ~/.bashrc
+echo "alias tailapi='sudo journalctl -u kube-apiserver -n 10 --no-pager'" >> ~/.bashrc
+echo "alias tailetc='sudo journalctl -u etcd -n 10 --no-pager'" >> ~/.bashrc
+echo "alias tailklet='sudo journalctl -u kubelet -n 10 --no-pager'" >> ~/.bashrc
+echo "alias tailcm='sudo journalctl -u kube-controller-manager -n 10 --no-pager'" >> ~/.bashrc
+echo "alias tailsch='sudo journalctl -u kube-scheduler -n 10 --no-pager'" >> ~/.bashrc
