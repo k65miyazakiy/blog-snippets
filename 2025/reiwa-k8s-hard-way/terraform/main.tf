@@ -32,7 +32,7 @@ resource "google_compute_firewall" "iap_ssh" {
 
 resource "google_compute_instance" "vm_instance" {
   name         = "reiwa-k8s-hw"
-  machine_type = "e2-midium"
+  machine_type = "e2-medium"
  
   boot_disk {
     initialize_params {
