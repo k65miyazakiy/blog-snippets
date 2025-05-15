@@ -46,4 +46,4 @@ EOF
 systemctl daemon-reload
 systemctl enable kube-controller-manager
 systemctl start kube-controller-manager
-systemctl status kube-controller-manager
+# systemctl status kube-controller-manager
