@@ -5,11 +5,6 @@ cd /etc/kubernetes
 
 ## shceduler用のkubeconfigの作成
 
-# 証明書の作成
-openssl genrsa -out scheduler.key 2048
-openssl req -new -key scheduler.key -subj "/CN=system:kube-scheduler" -out scheduler.csr
-openssl x509 -req -in scheduler.csr -CA pki/ca.crt -CAkey pki/ca.key -CAcreateserial -out scheduler.crt -days 10000
-
 # kubeconfig の作成
 KUBE_USER="system:kube-scheduler"
 KUBE_CONFIG="scheduler.kubeconfig"

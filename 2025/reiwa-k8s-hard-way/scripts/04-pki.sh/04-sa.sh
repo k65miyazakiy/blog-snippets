@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+cd /etc/kubernetes/pki
 
 # サービスアカウント鍵ペアの生成
 openssl genrsa -out sa.key 2048

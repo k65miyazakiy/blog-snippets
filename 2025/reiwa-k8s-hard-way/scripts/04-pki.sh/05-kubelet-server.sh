@@ -32,8 +32,8 @@ EOF
 # CSRの生成
 openssl req -new -key kubelet-server.key \
     -subj "/CN=system:node:${NODE_NAME}/O=system:nodes" \
-    -config kubelet-openssl.cnf \
-    -out kubelet.csr
+    -config kubelet.cnf \
+    -out kubelet-server.csr
 
 # 証明書の署名
 openssl x509 -req -in kubelet-server.csr \

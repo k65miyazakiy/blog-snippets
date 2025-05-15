@@ -5,12 +5,6 @@ cd /etc/kubernetes
 
 ## kubelet用のkubeconfigの作成
 
-# kubelet ユーザー用の鍵と証明書
-NODE_NAME=$(hostname -s)  # ノード名を取得
-openssl genrsa -out kubelet.key 2048
-openssl req -new -key kubelet.key -subj "/CN=system:node:${NODE_NAME}/O=system:nodes" -out kubelet.csr
-openssl x509 -req -in kubelet.csr -CA pki/ca.crt -CAkey pki/ca.key -CAcreateserial -out kubelet.crt -days 10000
-
 # kubelet.kubeconfig の作成
 KUBE_USER="system:node:${NODE_NAME}"
 KUBE_CONFIG="kubelet.kubeconfig"

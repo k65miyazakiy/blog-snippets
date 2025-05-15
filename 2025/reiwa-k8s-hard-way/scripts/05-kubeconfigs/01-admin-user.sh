@@ -5,11 +5,6 @@ cd /etc/kubernetes
 
 ## クラスタ管理者用のkubeconfigの作成
 
-# admin ユーザー用の鍵と証明書
-openssl genrsa -out admin.key 2048
-openssl req -new -key admin.key -subj "/CN=admin/O=system:masters" -out admin.csr
-openssl x509 -req -in admin.csr -CA pki/ca.crt -CAkey pki/ca.key -CAcreateserial -out admin.crt -days 10000
-
 # admin.kubeconfig の作成
 MASTER_IP=$(hostname -I | awk '{print $1}')
 CLUSTER_NAME="kubernetes"

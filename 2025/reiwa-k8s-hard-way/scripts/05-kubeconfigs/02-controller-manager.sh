@@ -5,11 +5,6 @@ cd /etc/kubernetes
 
 ## Controller Mnager用のkubeconfigの作成
 
-# 証明書の作成
-openssl genrsa -out controller-manager.key 2048
-openssl req -new -key controller-manager.key -subj "/CN=system:kube-controller-manager" -out controller-manager.csr
-openssl x509 -req -in controller-manager.csr -CA pki/ca.crt -CAkey pki/ca.key -CAcreateserial -out controller-manager.crt -days 10000
-
 # kubeconfig の作成
 KUBE_USER="system:kube-controller-manager"
 KUBE_CONFIG="controller-manager.kubeconfig"
