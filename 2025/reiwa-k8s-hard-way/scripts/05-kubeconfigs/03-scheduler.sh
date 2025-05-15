@@ -17,8 +17,8 @@ kubectl config set-cluster ${CLUSTER_NAME} \
   --kubeconfig=${KUBE_CONFIG}
 
 kubectl config set-credentials ${KUBE_USER} \
-  --client-certificate=/etc/kubernetes/scheduler.crt \
-  --client-key=/etc/kubernetes/scheduler.key \
+  --client-certificate=/etc/kubernetes/pki/scheduler.crt \
+  --client-key=/etc/kubernetes/pki/scheduler.key \
   --embed-certs=true \
   --kubeconfig=${KUBE_CONFIG}
 
