@@ -6,6 +6,7 @@ cd /etc/kubernetes
 ## kubelet用のkubeconfigの作成
 
 # kubelet.kubeconfig の作成
+MASTER_IP=$(hostname -I | awk '{print $1}')
 NODE_NAME=$(hostname -s)
 CLUSTER_NAME="kubernetes"
 KUBE_USER="system:node:${NODE_NAME}"
@@ -18,8 +19,8 @@ kubectl config set-cluster ${CLUSTER_NAME} \
   --kubeconfig=${KUBE_CONFIG}
 
 kubectl config set-credentials ${KUBE_USER} \
-  --client-certificate=/var/lib/kubelet/pki/kubelet-server.crt \
-  --client-key=/var/lib/kubelet/pki/kubelet-server.key \
+  --client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt \
+  --client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key \
   --embed-certs=true \
   --kubeconfig=${KUBE_CONFIG}
 
