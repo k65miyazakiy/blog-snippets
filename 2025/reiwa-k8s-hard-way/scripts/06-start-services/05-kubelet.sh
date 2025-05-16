@@ -38,5 +38,5 @@ ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS
 EOF
 
 ## kubeletを起動する
-sysstemctl daemon-reload
+systemctl daemon-reload
 systemctl restart kubelet
