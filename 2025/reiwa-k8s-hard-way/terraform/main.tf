@@ -54,5 +54,6 @@ resource "google_compute_instance" "vm_instance" {
     mkdir -p /opt
     cd /opt
     git clone https://github.com/k65miyazakiy/blog-snippets.git
+    git config --global --add safe.directory /opt/blog-snippets
     EOF
 }
