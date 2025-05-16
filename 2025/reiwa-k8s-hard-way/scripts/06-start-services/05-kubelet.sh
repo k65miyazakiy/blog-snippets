@@ -32,9 +32,8 @@ EOF
 mkdir -p /etc/systemd/system/kubelet.service.d/
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 [Service]
-Environment="KUBELET_KUBECONFIG_ARGS=--kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml"
 ExecStart=
-ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS
+ExecStart=/usr/bin/kubelet --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --config=/var/lib/kubelet/config.yaml
 EOF
 
 ## kubeletを起動する
