@@ -46,4 +46,13 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
+
+    metadata_startup_script = <<-EOF
+    #!/bin/bash
+    apt-get update
+    apt-get install -y git
+    mkdir -p /opt
+    cd /opt
+    git clone https://github.com/k65miyazakiy/blog-snippets.git
+    EOF
 }
