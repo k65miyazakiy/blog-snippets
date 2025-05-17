@@ -14,11 +14,13 @@ KUBE_CONFIG="admin.kubeconfig"
   # --embed-certs=true \
 kubectl config set-cluster ${CLUSTER_NAME} \
   --certificate-authority=/etc/kubernetes/pki/ca.crt \
+  --embed-certs=true \
   --server=https://${MASTER_IP}:6443 \
   --kubeconfig=${KUBE_CONFIG}
 
 kubectl config set-credentials ${KUBE_USER} \
   --client-certificate=/etc/kubernetes/pki/admin.crt \
+  --embed-certs=true \
   --client-key=/etc/kubernetes/pki/admin.key \
   --kubeconfig=${KUBE_CONFIG}
 
