@@ -4,6 +4,8 @@ set -e
 
 ## CNI（weavenet）のインストールと設定
 
+KUBECONFIG=/etc/kubernetes/admin.kubeconfig
+
 # 不足しているモジュールがあれば読み込み
 sudo modprobe ip_tables
 sudo modprobe iptable_nat
@@ -227,10 +229,10 @@ items:
 EOF
 
 # 適用
-kubectl apply -f weave-custom.yaml
+kubectl --kubeconfig $KUBECONFIG apply -f weave-custom.yaml
 
 # なぜかkubectl port-forwardがノードユーザーの権限で処理されようとするので、手当を行う
-cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl --kubeconfig $KUBECONFIG apply -f -
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
