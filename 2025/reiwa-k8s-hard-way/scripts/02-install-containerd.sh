@@ -27,6 +27,6 @@ wget https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni
 mkdir -p /opt/cni/bin
 tar xzf cni-plugins-linux-amd64-v1.7.1.tgz -C /opt/cni/bin
 
-# contianerdをapt経由でインストールした場合、criが無効になっているので有効化する
+# containerdをapt経由でインストールした場合、criが無効になっているので有効化する
 sudo sed -i 's/"cri"//g' /etc/containerd/config.toml
 systemctl restart containerd
